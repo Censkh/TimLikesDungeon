@@ -16,7 +16,11 @@ public class PlayerController : MonoBehaviour {
         var speed = 3f;
         var rigidbody = GetComponent<Rigidbody2D>();
         var velocity = inputTimer <= 0 ? new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")) * speed : Vector2.zero;
-        rigidbody.velocity = Vector2.Lerp(rigidbody.velocity, velocity, 20f * Time.deltaTime);
+        if (rigidbody.velocity.magnitude > speed)
+        {
+            rigidbody.velocity = rigidbody.velocity.normalized * speed;
+        }
+        rigidbody.velocity = Vector2.Lerp(rigidbody.velocity, velocity, 20f * Time.fixedDeltaTime);
         rigidbody.velocity *= 0.9f;
         var pos = rigidbody.position;
         if (!doorPresent)

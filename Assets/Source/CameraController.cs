@@ -21,7 +21,22 @@ public class CameraController : MonoBehaviour
         modificatoreSchermo = 1f;
         lastTargetResolutionHeight = Screen.height;
         currentPixelsToUnits = 48;
-        Camera.main.orthographicSize = (1.0f * lastTargetResolutionHeight) / 2f / currentPixelsToUnits / (Screen.height/280f) * CameraScale;
+        if (lastTargetResolutionHeight < 500)
+        {
+            modificatoreSchermo = 1.5f;
+        }
+        else if (lastTargetResolutionHeight >= 500 && lastTargetResolutionHeight <= 650)
+        {
+            modificatoreSchermo = 2f;
+        } else if (lastTargetResolutionHeight>=650 && lastTargetResolutionHeight <= 770)
+        {
+            modificatoreSchermo = 2.5f;
+        }
+        else if (lastTargetResolutionHeight >= 770)
+        {
+            modificatoreSchermo = 3f;
+        }
+        Camera.main.orthographicSize = (1.0f * lastTargetResolutionHeight) / 2f / currentPixelsToUnits / modificatoreSchermo * CameraScale;
 
     }
 }
