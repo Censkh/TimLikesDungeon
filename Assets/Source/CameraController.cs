@@ -14,7 +14,7 @@ public class CameraController : MonoBehaviour
         {
             var pos = Game.Instance.CurrentRoomObject.transform.position;
             pos.z = transform.position.z;
-            transform.position = Vector3.Lerp(transform.position, pos, 5f * Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, pos, 8f * Time.deltaTime);
 
         }
 

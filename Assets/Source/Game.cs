@@ -20,5 +20,6 @@ public class Game : MonoBehaviour {
         CurrentRoomObject = room.gameObject;
         room.Activate();
         player.transform.parent = room.gameObject.transform;
+        player.Fade();
     }
 }

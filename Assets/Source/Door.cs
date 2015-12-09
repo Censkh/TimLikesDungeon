@@ -5,6 +5,7 @@ public class Door : MonoBehaviour {
 
     public GameObject ConnectedDoorObject;
     public Door ConnectedDoor { get { return ConnectedDoorObject == null ? null : ConnectedDoorObject.GetComponent<Door>(); } }
+    public Room.Side CurrentSide;
     private Room room;
     public bool Horizontal;
 
@@ -16,6 +17,15 @@ public class Door : MonoBehaviour {
     public Room GetRoom()
     {
         return room;
+    }
+
+    void OnDrawGizmos()
+    {
+        if (ConnectedDoorObject != null)
+        {
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawLine(transform.position, ConnectedDoorObject.transform.position);
+        }
     }
 
 }

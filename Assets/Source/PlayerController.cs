@@ -13,15 +13,14 @@ public class PlayerController : MonoBehaviour {
 
     void FixedUpdate()
     {
-        var speed = 3f;
+        var speed = 2f;
         var rigidbody = GetComponent<Rigidbody2D>();
         var velocity = inputTimer <= 0 ? new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")) * speed : Vector2.zero;
         if (rigidbody.velocity.magnitude > speed)
         {
             rigidbody.velocity = rigidbody.velocity.normalized * speed;
         }
-        rigidbody.velocity = Vector2.Lerp(rigidbody.velocity, velocity, 20f * Time.fixedDeltaTime);
-        rigidbody.velocity *= 0.9f;
+        rigidbody.velocity = Vector2.Lerp(rigidbody.velocity, velocity, 40f * Time.fixedDeltaTime);
         var pos = rigidbody.position;
         if (!doorPresent)
         {
