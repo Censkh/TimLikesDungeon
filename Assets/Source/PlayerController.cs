@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour {
 
     void FixedUpdate()
     {
-        var speed = 2f;
+        var speed = 2.5f;
         var rigidbody = GetComponent<Rigidbody2D>();
         var velocity = inputTimer <= 0 ? new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")) * speed : Vector2.zero;
         if (rigidbody.velocity.magnitude > speed)

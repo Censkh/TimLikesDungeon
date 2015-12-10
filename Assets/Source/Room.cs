@@ -15,6 +15,8 @@ public class Room : MonoBehaviour
 
     private bool active = true;
     private List<Door> doors = new List<Door>(new Door[4]);
+    public int X;
+    public int Y;
 
     void Start()
     {

@@ -25,6 +25,7 @@ public class Door : MonoBehaviour {
         {
             Gizmos.color = Color.cyan;
             Gizmos.DrawLine(transform.position, ConnectedDoorObject.transform.position);
+            Gizmos.DrawCube(ConnectedDoorObject.transform.position, Vector3.one * 0.1f);
         }
     }
 

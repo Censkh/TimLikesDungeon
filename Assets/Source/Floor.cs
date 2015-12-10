@@ -98,6 +98,8 @@ public class Floor : MonoBehaviour {
         var room = roomObject.GetComponent<Room>();
         room.transform.position = new Vector3(x*Room.Width,y*Room.Height);
         room.transform.parent = transform;
+        room.X = x;
+        room.Y = y;
         return room;
     }
 
