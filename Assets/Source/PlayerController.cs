@@ -5,22 +5,78 @@ public class PlayerController : MonoBehaviour {
 
     bool doorPresent = false;
     float inputTimer = 0f;
+    float bulletTimer = 0f;
+    GameObject swordObject;
 
     void Update()
     {
         inputTimer -= Time.deltaTime;
+        bulletTimer -= Time.deltaTime;
+        var player = GetComponent<Player>();
+        if (player.CurrentAttackType == Player.AttackType.Bullet)
+        {
+            if (bulletTimer <= 0)
+            {
+                var shot = false;
+                if (Input.GetKey(KeyCode.UpArrow))
+                {
+                    shot = true;
+                    player.Shoot(Vector2.up);
+                }
+                else if (Input.GetKey(KeyCode.LeftArrow))
+                {
+                    shot = true;
+                    player.Shoot(Vector2.left);
+                }
+                else if (Input.GetKey(KeyCode.RightArrow))
+                {
+                    shot = true;
+                    player.Shoot(Vector2.right);
+                }
+                else if (Input.GetKey(KeyCode.DownArrow))
+                {
+                    shot = true;
+                    player.Shoot(Vector2.down);
+                }
+                if (shot)
+                {
+                    bulletTimer = 0.5f;
+                }
+            }
+        } else
+        {
+            if (swordObject == null) 
+            {
+                if (Input.GetKeyDown(KeyCode.UpArrow))
+                {
+                    swordObject = player.SwingSword(Side.Top).gameObject;
+                }
+                else if (Input.GetKeyDown(KeyCode.LeftArrow))
+                {
+                    swordObject = player.SwingSword(Side.Left).gameObject;
+                }
+                else if (Input.GetKeyDown(KeyCode.RightArrow))
+                {
+                    swordObject = player.SwingSword(Side.Right).gameObject;
+                }
+                else if (Input.GetKeyDown(KeyCode.DownArrow))
+                {
+                    swordObject = player.SwingSword(Side.Down).gameObject;
+                }
+            }
+        }
     }
 
     void FixedUpdate()
     {
-        var speed = 2.5f;
+        var speed = swordObject==null ? 2.5f : 0.25f;
         var rigidbody = GetComponent<Rigidbody2D>();
         var velocity = inputTimer <= 0 ? new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")) * speed : Vector2.zero;
         if (rigidbody.velocity.magnitude > speed)
         {
             rigidbody.velocity = rigidbody.velocity.normalized * speed;
         }
-        rigidbody.velocity = Vector2.Lerp(rigidbody.velocity, velocity, 40f * Time.fixedDeltaTime);
+        rigidbody.velocity += velocity;
         var pos = rigidbody.position;
         if (!doorPresent)
         {

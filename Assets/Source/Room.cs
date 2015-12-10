@@ -4,11 +4,6 @@ using System.Collections.Generic;
 public class Room : MonoBehaviour
 {
 
-    public enum Side
-    {
-        Left, Right, Top, Down
-    }
-
     public const int Width = 10;
     public const int Height = 6;
     public static Vector2[] Sides = { new Vector2(-1, 0), new Vector2(1, 0), new Vector2(0, 1), new Vector2(0, -1) };

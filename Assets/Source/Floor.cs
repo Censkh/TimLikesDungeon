@@ -68,14 +68,14 @@ public class Floor : MonoBehaviour {
                             var connectedRoom = roomMap[checkX, checkY];
                             if (connectedRoom!=null)
                             {
-                                Room.Side side = (Room.Side)n;
-                                Room.Side oppositeSide = Room.Side.Down;
+                                Side side = (Side)n;
+                                Side oppositeSide = Side.Down;
                                 switch (side)
                                 {
-                                    case Room.Side.Left: oppositeSide = Room.Side.Right; break;
-                                    case Room.Side.Right: oppositeSide = Room.Side.Left; break;
-                                    case Room.Side.Top: oppositeSide = Room.Side.Down; break;
-                                    case Room.Side.Down: oppositeSide = Room.Side.Top; break;
+                                    case Side.Left: oppositeSide = Side.Right; break;
+                                    case Side.Right: oppositeSide = Side.Left; break;
+                                    case Side.Top: oppositeSide = Side.Down; break;
+                                    case Side.Down: oppositeSide = Side.Top; break;
                                 }
                                 Door ownDoor = room.GetDoor(side);
                                 if (ownDoor == null) ownDoor = room.CreateDoor(side);
