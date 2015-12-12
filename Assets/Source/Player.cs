@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(Actor))]
 public class Player : NetworkBehaviour
@@ -14,6 +15,8 @@ public class Player : NetworkBehaviour
 
     void Start()
     {
+        var sword = GetComponentInChildren<Sword>();
+        sword.OwningObject = gameObject;
         if (isLocalPlayer)
         {
             gameObject.AddComponent<PlayerController>();
@@ -42,16 +45,12 @@ public class Player : NetworkBehaviour
         bullet.transform.position = transform.position;
     }
 
-    public Sword SwingSword(Side side)
+    public void SwingSword(List<Side> sides)
     {
-        var swordObject = Instantiate(Resources.Load<GameObject>("Sword_P"));
-        var sword = swordObject.GetComponent<Sword>();
-        sword.OwningObject = gameObject;
-        if (side == Side.Right || side == Side.Left) sword.transform.Rotate(new Vector3(0, 0, 90));
-        if (side == Side.Right || side == Side.Down) sword.transform.localScale = new Vector3(1, -1, 1);
-        sword.transform.position = transform.position + (sword.transform.TransformVector(Vector3.up) * 0.3f);
-        sword.transform.parent = transform;
-        return sword;
+        if (sides.Count == 0) return;
+        var sword = GetComponentInChildren<Sword>();
+        sword.CurrentSides = sides;
+        if (sword.IsResting()) sword.Jab();
     }
 
 }

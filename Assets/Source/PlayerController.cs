@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : MonoBehaviour
+{
 
     bool doorPresent = false;
     float inputTimer = 0f;
     float bulletTimer = 0f;
-    GameObject swordObject;
 
     void Update()
     {
@@ -43,33 +43,33 @@ public class PlayerController : MonoBehaviour {
                     bulletTimer = 0.5f;
                 }
             }
-        } else
+        }
+        else 
         {
-            if (swordObject == null) 
+            List<Side> sides = new List<Side>();
+            if (Input.GetKey(KeyCode.UpArrow))
             {
-                if (Input.GetKeyDown(KeyCode.UpArrow))
-                {
-                    swordObject = player.SwingSword(Side.Top).gameObject;
-                }
-                else if (Input.GetKeyDown(KeyCode.LeftArrow))
-                {
-                    swordObject = player.SwingSword(Side.Left).gameObject;
-                }
-                else if (Input.GetKeyDown(KeyCode.RightArrow))
-                {
-                    swordObject = player.SwingSword(Side.Right).gameObject;
-                }
-                else if (Input.GetKeyDown(KeyCode.DownArrow))
-                {
-                    swordObject = player.SwingSword(Side.Down).gameObject;
-                }
+                sides.Add(Side.Top);
+            } else if (Input.GetKey(KeyCode.DownArrow))
+            {
+                sides.Add(Side.Down);
             }
+            if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                sides.Add(Side.Left);
+            }
+            else if (Input.GetKey(KeyCode.RightArrow))
+            {
+                sides.Add(Side.Right);
+            }
+            player.SwingSword(sides);
         }
     }
 
     void FixedUpdate()
     {
-        var speed = swordObject==null ? 2.5f : 0.25f;
+        var sword = GetComponentInChildren<Sword>();
+        var speed = !sword.IsResting() ? 1.25f : 2.5f;
         var rigidbody = GetComponent<Rigidbody2D>();
         var velocity = inputTimer <= 0 ? new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")) * speed : Vector2.zero;
         if (rigidbody.velocity.magnitude > speed)
@@ -105,7 +105,7 @@ public class PlayerController : MonoBehaviour {
         var door = collider.gameObject.GetComponent<Door>();
         if (Mathf.Abs(door.Horizontal ? ownCollider.bounds.center.x - collider.bounds.center.x : ownCollider.bounds.center.y - collider.bounds.center.y) < 0.1f)
         {
-            Game.Instance.SwitchRoomFromDoor(GetComponent<Player>(),door);
+            Game.Instance.SwitchRoomFromDoor(GetComponent<Player>(), door);
             inputTimer = 0.3f;
             doorPresent = false;
         }
